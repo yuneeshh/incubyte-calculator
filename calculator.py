@@ -2,11 +2,15 @@ import unittest
 
 
 def calculator(numbers: str) -> int:
-    numbers = numbers.strip()
-    numbers = numbers.replace("\n", ",")
+    delimiter = ","
+    if numbers.startswith("//"):  # Check if custom delimiter is given
+        delimiter = numbers[2]  # Get the delimiter
+        numbers = numbers[3:]  # Slice after delimiter
+    numbers = numbers.replace("\n", delimiter)  # Replace newline with delimiters
     if not numbers:
         return 0
-    return sum(int(number) for number in numbers.split(","))
+    numbers = numbers.strip(delimiter)  # Strip delimiters
+    return sum(int(number) for number in numbers.split(delimiter))
 
 
 class TestCalculator(unittest.TestCase):
@@ -32,7 +36,6 @@ class TestCalculator(unittest.TestCase):
 
     def test_calculator_newline(self):
         self.assertEqual(calculator("1\n2,3"), 6)
-
 
     def test_calculator_delimiter(self):
         self.assertEqual(calculator("//;\n1;2"), 3)
