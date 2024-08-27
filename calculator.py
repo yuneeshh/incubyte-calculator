@@ -10,7 +10,7 @@ def calculator(numbers: str) -> int:
     if not numbers:
         return 0
     numbers = numbers.strip(delimiter)  # Strip delimiters
-    return sum(int(number) for number in numbers.split(delimiter))
+    return sum(int(number) for number in numbers.split(delimiter) if number)
 
 
 class TestCalculator(unittest.TestCase):
@@ -39,6 +39,9 @@ class TestCalculator(unittest.TestCase):
 
     def test_calculator_delimiter(self):
         self.assertEqual(calculator("//;\n1;2"), 3)
+
+    def test_calculator_delimiter(self):
+        self.assertEqual(calculator("//;\n1;;2"), 3)
 
 
 if __name__ == "__main__":
