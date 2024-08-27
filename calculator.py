@@ -13,12 +13,11 @@ def calculator(numbers: str) -> int:
                 delimiters = ","
             else:
                 delimiters = delimiters[1]
-
     else:
         numbers = numbers.replace("\n", delimiters)  # Replace newline with delimiters
-    if not numbers:
-        return 0
     numbers = numbers.strip(delimiters)  # Strip delimiterss
+    if not numbers or numbers.isspace():
+        return 0
     negatives = []
     all_numbers = numbers.split(delimiters)
     for number in all_numbers:
@@ -79,6 +78,9 @@ class TestCalculator(unittest.TestCase):
 
     def test_calculator_multiple_different_delimiter(self):
         self.assertEqual(calculator("//[;][,]\n1,2;3"), 6)
+
+    def test_calculator_empty_str(self):
+        self.assertEqual(calculator("    "), 0)
 
 
 if __name__ == "__main__":
