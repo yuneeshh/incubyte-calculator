@@ -26,6 +26,9 @@ class TestCalculator(unittest.TestCase):
     def test_calculator_add_two_digit(self):
         self.assertEqual(calculator("5,4"), 9)
 
+    def test_calculator_multiple_digits(self):
+        self.assertEqual(calculator("5,4,6,7"), 22)
+
 
 if __name__ == "__main__":
     unittest.main()
