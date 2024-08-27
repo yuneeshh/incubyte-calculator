@@ -60,6 +60,9 @@ class TestCalculator(unittest.TestCase):
             calculator("1,-2,3")
         self.assertEqual(str(cm.exception), "Negative numbers not allowed -2")
 
+    def test_calculator_greater_1000(self):
+        self.assertEqual(calculator("1000,2,1,1001"), 1003)
+
 
 if __name__ == "__main__":
     unittest.main()
