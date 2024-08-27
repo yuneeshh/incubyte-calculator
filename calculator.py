@@ -3,6 +3,7 @@ import unittest
 
 def calculator(numbers: str) -> int:
     numbers = numbers.strip()
+    numbers = numbers.replace("\n", ",")
     if not numbers:
         return 0
     return sum(int(number) for number in numbers.split(","))
