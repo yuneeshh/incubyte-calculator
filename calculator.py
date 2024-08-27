@@ -18,6 +18,8 @@ def calculator(numbers: str) -> int:
                 if num < 0:
                     negatives.append(number)
                     continue
+                if num > 1000:
+                    continue
                 result += num
     if negatives:
         raise ValueError(f"Negative numbers not allowed {','.join(negatives)}")
