@@ -8,7 +8,7 @@ def calculator(numbers: str) -> int:
         delimiters, numbers = numbers[2:].split("\n")
         if len(delimiters) > 1:
             if "[" in delimiters:
-                for x in delimiters.split("[")[1]:
+                for x in delimiters.split("[")[1:]:
                     numbers = numbers.replace(x[0], ",")
                 delimiters = ","
             else:
@@ -37,6 +37,7 @@ def calculator(numbers: str) -> int:
 class TestCalculator(unittest.TestCase):
     def test_calculator_empty_string(self):
         self.assertEqual(calculator(""), 0)
+        self.assertEqual(calculator(",,,"), 0)
 
     def test_calculator_single_digit_string(self):
         self.assertEqual(calculator("5"), 5)
@@ -69,6 +70,9 @@ class TestCalculator(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             calculator("1,-2,3")
         self.assertEqual(str(cm.exception), "Negative numbers not allowed -2")
+        with self.assertRaises(ValueError) as cm:
+            calculator("1,-2,-3")
+        self.assertEqual(str(cm.exception), "Negative numbers not allowed -2,-3")
 
     def test_calculator_greater_1000(self):
         self.assertEqual(calculator("1000,2,1,1001"), 1003)
@@ -78,6 +82,9 @@ class TestCalculator(unittest.TestCase):
 
     def test_calculator_multiple_different_delimiter(self):
         self.assertEqual(calculator("//[;][,]\n1,2;3"), 6)
+        self.assertEqual(calculator("//[,][;]\n1,2;3"), 6)
+        self.assertEqual(calculator("//[,][1]\n31322,"), 325)
+        self.assertEqual(calculator("//[2][1]\n31322,"), 6)
 
     def test_calculator_empty_str(self):
         self.assertEqual(calculator("    "), 0)
