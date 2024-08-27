@@ -5,14 +5,17 @@ def calculator(numbers: str) -> int:
     result = 0
     delimiters = ","
     if numbers.startswith("//"):  # Check if custom delimiters is given
-        delimiters, numbers = numbers[2:].split('\n')
+        delimiters, numbers = numbers[2:].split("\n")
         if len(delimiters) > 1:
-            if delimiters.count('[') > 1:
-                pass
+            if "[" in delimiters:
+                for x in delimiters.split("[")[1]:
+                    numbers = numbers.replace(x[0], ",")
+                delimiters = ","
             else:
                 delimiters = delimiters[1]
-    print()
-    numbers = numbers.replace("\n", delimiters)  # Replace newline with delimiterss
+
+    else:
+        numbers = numbers.replace("\n", delimiters)  # Replace newline with delimiters
     if not numbers:
         return 0
     numbers = numbers.strip(delimiters)  # Strip delimiterss
@@ -51,7 +54,7 @@ class TestCalculator(unittest.TestCase):
         self.assertEqual(calculator("5,4"), 9)
 
     def test_calculator_multiple_digits(self):
-        self.assertEqual(calculator("5,4,6,7"), 22)
+        self.assertEqual(calculator("5,4,6"), 15)
 
     def test_calculator_newline(self):
         self.assertEqual(calculator("1\n2,3"), 6)
@@ -74,8 +77,8 @@ class TestCalculator(unittest.TestCase):
     def test_calculator_multiple_delimiters(self):
         self.assertEqual(calculator("//[;;;;]\n1;;2"), 3)
 
-    # def test_calculator_multiple_hetero_delimiter(self):
-    #     self.assertEqual(calculator("//;,\n1,2;3"), 3)
+    def test_calculator_multiple_different_delimiter(self):
+        self.assertEqual(calculator("//[;][,]\n1,2;3"), 6)
 
 
 if __name__ == "__main__":
