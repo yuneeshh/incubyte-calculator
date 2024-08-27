@@ -65,6 +65,9 @@ class TestCalculator(unittest.TestCase):
     def test_calculator_greater_1000(self):
         self.assertEqual(calculator("1000,2,1,1001"), 1003)
 
+    def test_calculator_multiple_delimiter(self):
+        self.assertEqual(calculator("//;;;;\n1;;2"), 3)
+
 
 if __name__ == "__main__":
     unittest.main()
