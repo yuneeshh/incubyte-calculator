@@ -40,7 +40,8 @@ class TestCalculator(unittest.TestCase):
     def test_calculator_delimiter(self):
         self.assertEqual(calculator("//;\n1;2"), 3)
 
-    def test_calculator_delimiter(self):
+    def test_calculator_multiple_delimiter(self):
+        self.assertEqual(calculator(",1,,2"), 3)
         self.assertEqual(calculator("//;\n1;;2"), 3)
 
 
