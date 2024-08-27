@@ -3,16 +3,16 @@ import unittest
 
 def calculator(numbers: str) -> int:
     result = 0
-    delimiter = ","
-    if numbers.startswith("//"):  # Check if custom delimiter is given
-        delimiter = numbers[2]  # Get the delimiter
-        numbers = numbers[3:]  # Slice after delimiter
-    numbers = numbers.replace("\n", delimiter)  # Replace newline with delimiters
+    delimiters = ","
+    if numbers.startswith("//"):  # Check if custom delimiters is given
+        delimiters = numbers[2]  # Get the delimiters
+        numbers = numbers[3:]  # Slice after delimiters
+    numbers = numbers.replace("\n", delimiters)  # Replace newline with delimiterss
     if not numbers:
         return 0
-    numbers = numbers.strip(delimiter)  # Strip delimiters
+    numbers = numbers.strip(delimiters)  # Strip delimiterss
     negatives = []
-    for number in numbers.split(delimiter):
+    for number in numbers.split(delimiters):
         if number:
             if num := int(number):
                 if num < 0:
@@ -67,6 +67,9 @@ class TestCalculator(unittest.TestCase):
 
     def test_calculator_multiple_delimiter(self):
         self.assertEqual(calculator("//;;;;\n1;;2"), 3)
+
+    def test_calculator_multiple_hetero_delimiter(self):
+        self.assertEqual(calculator("//;,\n1,2;3"), 3)
 
 
 if __name__ == "__main__":
