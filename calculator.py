@@ -2,6 +2,7 @@ import unittest
 
 
 def calculator(numbers: str) -> int:
+    result = 0
     delimiter = ","
     if numbers.startswith("//"):  # Check if custom delimiter is given
         delimiter = numbers[2]  # Get the delimiter
@@ -10,7 +11,17 @@ def calculator(numbers: str) -> int:
     if not numbers:
         return 0
     numbers = numbers.strip(delimiter)  # Strip delimiters
-    return sum(int(number) for number in numbers.split(delimiter) if number)
+    negatives = []
+    for number in numbers.split(delimiter):
+        if number:
+            if num := int(number):
+                if num < 0:
+                    negatives.append(number)
+                    continue
+                result += num
+    if negatives:
+        raise ValueError(f"Negative numbers not allowed {','.join(negatives)}")
+    return result
 
 
 class TestCalculator(unittest.TestCase):
@@ -43,6 +54,11 @@ class TestCalculator(unittest.TestCase):
     def test_calculator_multiple_delimiter(self):
         self.assertEqual(calculator(",1,,2"), 3)
         self.assertEqual(calculator("//;\n1;;2"), 3)
+
+    def test_calculator_negative_digit(self):
+        with self.assertRaises(ValueError) as cm:
+            calculator("1,-2,3")
+        self.assertEqual(str(cm.exception), "Negative numbers not allowed -2")
 
 
 if __name__ == "__main__":
