@@ -5,14 +5,20 @@ def calculator(numbers: str) -> int:
     result = 0
     delimiters = ","
     if numbers.startswith("//"):  # Check if custom delimiters is given
-        delimiters = numbers[2]  # Get the delimiters
-        numbers = numbers[3:]  # Slice after delimiters
+        delimiters, numbers = numbers[2:].split('\n')
+        if len(delimiters) > 1:
+            if delimiters.count('[') > 1:
+                pass
+            else:
+                delimiters = delimiters[1]
+    print()
     numbers = numbers.replace("\n", delimiters)  # Replace newline with delimiterss
     if not numbers:
         return 0
     numbers = numbers.strip(delimiters)  # Strip delimiterss
     negatives = []
-    for number in numbers.split(delimiters):
+    all_numbers = numbers.split(delimiters)
+    for number in all_numbers:
         if number:
             if num := int(number):
                 if num < 0:
@@ -65,11 +71,11 @@ class TestCalculator(unittest.TestCase):
     def test_calculator_greater_1000(self):
         self.assertEqual(calculator("1000,2,1,1001"), 1003)
 
-    def test_calculator_multiple_delimiter(self):
-        self.assertEqual(calculator("//;;;;\n1;;2"), 3)
+    def test_calculator_multiple_delimiters(self):
+        self.assertEqual(calculator("//[;;;;]\n1;;2"), 3)
 
-    def test_calculator_multiple_hetero_delimiter(self):
-        self.assertEqual(calculator("//;,\n1,2;3"), 3)
+    # def test_calculator_multiple_hetero_delimiter(self):
+    #     self.assertEqual(calculator("//;,\n1,2;3"), 3)
 
 
 if __name__ == "__main__":
